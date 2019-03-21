@@ -33,7 +33,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate() : QAbstractItemDelegate(), unit(BitcoinUnits::BITG)
+    TxViewDelegate() : QAbstractItemDelegate(), unit(BitcoinUnits::GCC)
     {
     }
 
@@ -159,15 +159,15 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
         nWatchOnlyLockedBalance = pwalletMain->GetLockedWatchOnlyBalance();
     }
 
-    // BITG Balance
+    // GCC Balance
     CAmount nTotalBalance = balance + unconfirmedBalance;
     CAmount nAvailableBalance = balance - immatureBalance - nLockedBalance;
 
-    // BITG Watch-Only Balance
+    // GCC Watch-Only Balance
     CAmount nTotalWatchBalance = watchOnlyBalance + watchUnconfBalance;
     CAmount nAvailableWatchBalance = watchOnlyBalance - watchImmatureBalance - nWatchOnlyLockedBalance;
 
-    // BITG labels
+    // GCC labels
     ui->labelAvailable->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, nAvailableBalance, false, BitcoinUnits::separatorNever));
     ui->labelPending->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, unconfirmedBalance, false, BitcoinUnits::separatorNever));
     ui->labelImmature->setText(BitcoinUnits::floorHtmlWithUnit(nDisplayUnit, immatureBalance, false, BitcoinUnits::separatorNever));
@@ -281,7 +281,7 @@ void OverviewPage::setWalletModel(WalletModel* model)
         connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
     }
 
-    // update the display unit, to not use the default ("BITG")
+    // update the display unit, to not use the default ("GCC")
     updateDisplayUnit();
 }
 

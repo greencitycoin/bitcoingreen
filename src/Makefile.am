@@ -65,15 +65,15 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoingreend
+  bin_PROGRAMS += greencityd
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += bitcoingreen-cli bitcoingreen-tx
+  bin_PROGRAMS += greencity-cli greencity-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
-# bitcoingreen core #
+# greencity core #
 BITCOIN_CORE_H = \
   activemasternode.h \
   addrman.h \
@@ -176,7 +176,7 @@ obj/build.h: FORCE
 	  "$(abs_top_srcdir)"
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between bitcoingreend and bitcoingreen-qt
+# server: shared between greencityd and greencity-qt
 libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_server_a_SOURCES = \
@@ -223,7 +223,7 @@ libbitcoin_zmq_a_SOURCES = \
   zmq/zmqpublishnotifier.cpp
 endif
 
-# wallet: shared between bitcoingreend and bitcoingreen-qt, but only linked
+# wallet: shared between greencityd and greencity-qt, but only linked
 # when wallet enabled
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -285,7 +285,7 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sph_skein.h \
   crypto/sph_types.h
 
-# common: shared between bitcoingreend, and bitcoingreen-qt and non-server tools
+# common: shared between greencityd, and greencity-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
@@ -344,7 +344,7 @@ libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
-# cli: shared between bitcoingreen-cli and bitcoingreen-qt
+# cli: shared between greencity-cli and greencity-qt
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
@@ -354,16 +354,16 @@ libbitcoin_cli_a_SOURCES = \
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# bitcoingreend binary #
-bitcoingreend_SOURCES = bitcoingreend.cpp
-bitcoingreend_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoingreend_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoingreend_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# greencityd binary #
+greencityd_SOURCES = greencityd.cpp
+greencityd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+greencityd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+greencityd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoingreend_SOURCES += bitcoingreend-res.rc
+greencityd_SOURCES += greencityd-res.rc
 endif
-bitcoingreend_LDADD = \
+greencityd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
@@ -376,45 +376,45 @@ bitcoingreend_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-bitcoingreend_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+greencityd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
-# bitcoingreen-cli binary #
-bitcoingreen_cli_SOURCES = bitcoingreen-cli.cpp
-bitcoingreen_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-bitcoingreen_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoingreen_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# greencity-cli binary #
+greencity_cli_SOURCES = greencity-cli.cpp
+greencity_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+greencity_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+greencity_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoingreend_SOURCES += bitcoingreend-res.rc
+greencityd_SOURCES += greencityd-res.rc
 endif
 
-bitcoingreen_cli_LDADD = \
+greencity_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-bitcoingreen_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+greencity_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
-# bitcoingreen-tx binary #
-bitcoingreen_tx_SOURCES = bitcoingreen-tx.cpp
-bitcoingreen_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoingreen_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoingreen_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# greencity-tx binary #
+greencity_tx_SOURCES = greencity-tx.cpp
+greencity_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+greencity_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+greencity_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoingreen_tx_SOURCES += bitcoingreen-tx-res.rc
+greencity_tx_SOURCES += greencity-tx-res.rc
 endif
 
-bitcoingreen_tx_LDADD = \
+greencity_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-bitcoingreen_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+greencity_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoinconsensus library #
@@ -463,12 +463,12 @@ CLEANFILES += obj/build.h
 EXTRA_DIST =
 
 
-config/bitcoingreen-config.h: config/stamp-h1
+config/greencity-config.h: config/stamp-h1
 	@$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-config/stamp-h1: $(top_srcdir)/$(subdir)/config/bitcoingreen-config.h.in $(top_builddir)/config.status
+config/stamp-h1: $(top_srcdir)/$(subdir)/config/greencity-config.h.in $(top_builddir)/config.status
 	$(AM_V_at)$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-$(top_srcdir)/$(subdir)/config/bitcoingreen-config.h.in:  $(am__configure_deps)
-	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/bitcoingreen-config.h.in
+$(top_srcdir)/$(subdir)/config/greencity-config.h.in:  $(am__configure_deps)
+	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/greencity-config.h.in
 
 clean-local:
 	-$(MAKE) -C secp256k1 clean

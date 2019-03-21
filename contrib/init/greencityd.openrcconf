@@ -1,0 +1,26 @@
+# /etc/conf.d/greencityd: config file for /etc/init.d/greencityd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/greencity/greencity.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/greencityd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/greencityd.pid"
+
+# Where to write greencityd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/greencityd"
+
+# User and group to own greencityd process
+#BITCOIND_USER="greencity"
+#BITCOIND_GROUP="greencity"
+
+# Path to greencityd executable
+#BITCOIND_BIN="/usr/bin/greencityd"
+
+# Nice value to run greencityd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

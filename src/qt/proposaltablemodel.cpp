@@ -121,7 +121,7 @@ QVariant ProposalTableModel::data(const QModelIndex &index, int role) const
             if(rec->percentage < 100) return tr("%1\%").arg(rec->percentage);
             return QString("%1\%").arg(rec->percentage);
         case Amount:
-            return QString("%1 / Superblock").arg(BitcoinUnits::floorWithUnit(BitcoinUnits::BITG, rec->amount));
+            return QString("%1 / Superblock").arg(BitcoinUnits::floorWithUnit(BitcoinUnits::GCC, rec->amount));
         }
         break;
     case Qt::ToolTipRole:

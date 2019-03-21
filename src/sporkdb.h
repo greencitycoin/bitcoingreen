@@ -2,8 +2,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOINGREEN_CSPORKDB_H
-#define BITCOINGREEN_CSPORKDB_H
+#ifndef GREENCITY_CSPORKDB_H
+#define GREENCITY_CSPORKDB_H
 
 #include <boost/filesystem/path.hpp>
 #include "leveldbwrapper.h"
@@ -25,4 +25,4 @@ public:
 };
 
 
-#endif //BITCOINGREEN_CSPORKDB_H
+#endif //GREENCITY_CSPORKDB_H

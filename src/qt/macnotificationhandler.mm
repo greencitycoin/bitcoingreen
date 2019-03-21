@@ -14,7 +14,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"io.savebitcoin.BitcoinGreen-Qt";
+        return @"io.savebitcoin.GreenCity-Qt";
     } else {
         return [self __bundleIdentifier];
     }

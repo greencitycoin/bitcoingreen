@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2015-2017 The PIVX developers
-// Copyright (c) 2018 The Bitcoin Green developers
+// Copyright (c) 2018 The Green City developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -129,7 +129,7 @@ public:
 };
 
 /**
- * Bitcoin Green RPC command dispatcher.
+ * Green City RPC command dispatcher.
  */
 class CRPCTable
 {

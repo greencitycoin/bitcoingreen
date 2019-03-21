@@ -17,7 +17,7 @@ osx=true
 SIGNER=
 VERSION=
 commit=false
-url=https://github.com/bitcoingreen/bitcoingreen
+url=https://github.com/greencity/greencity
 proc=2
 mem=2000
 lxc=true
@@ -31,7 +31,7 @@ commitFiles=true
 read -d '' usage <<- EOF
 Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] signer version
 
-Run this script from the directory containing the bitcoingreen, gitian-builder, gitian.sigs, and bitcoingreen-detached-sigs.
+Run this script from the directory containing the greencity, gitian-builder, gitian.sigs, and greencity-detached-sigs.
 
 Arguments:
 signer          GPG signer to sign each build assert file
@@ -39,7 +39,7 @@ version		Version number, commit, or branch to build. If building a commit or bra
 
 Options:
 -c|--commit	Indicate that the version argument is for a commit or branch
--u|--url	Specify the URL of the repository. Default is https://github.com/bitcoingreen/bitcoingreen
+-u|--url	Specify the URL of the repository. Default is https://github.com/greencity/greencity
 -v|--verify 	Verify the gitian build
 -b|--build	Do a gitian build
 -s|--sign	Make signed binaries for Windows and Mac OSX
@@ -237,8 +237,8 @@ echo ${COMMIT}
 if [[ $setup = true ]]
 then
     sudo apt-get install ruby apache2 git apt-cacher-ng python-vm-builder qemu-kvm qemu-utils
-    git clone https://github.com/bitcoingreen/gitian.sigs.git
-    git clone https://github.com/bitcoingreen/bitcoingreen-detached-sigs.git
+    git clone https://github.com/greencity/gitian.sigs.git
+    git clone https://github.com/greencity/greencity-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
     pushd ./gitian-builder
     if [[ -n "$USE_LXC" ]]
@@ -252,7 +252,7 @@ then
 fi
 
 # Set up build
-pushd ./bitcoingreen
+pushd ./greencity
 git fetch
 git checkout ${COMMIT}
 popd
@@ -261,7 +261,7 @@ popd
 if [[ $build = true ]]
 then
 	# Make output folder
-	mkdir -p ./bitcoingreen-binaries/${VERSION}
+	mkdir -p ./greencity-binaries/${VERSION}
 
 	# Build Dependencies
 	echo ""
@@ -271,7 +271,7 @@ then
 	mkdir -p inputs
 	wget -N -P inputs $osslPatchUrl
 	wget -N -P inputs $osslTarUrl
-	make -C ../bitcoingreen/depends download SOURCES_PATH=`pwd`/cache/common
+	make -C ../greencity/depends download SOURCES_PATH=`pwd`/cache/common
 
 	# Linux
 	if [[ $linux = true ]]
@@ -279,9 +279,9 @@ then
             echo ""
 	    echo "Compiling ${VERSION} Linux"
 	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit bitcoingreen=${COMMIT} --url bitcoingreen=${url} ../bitcoingreen/contrib/gitian-descriptors/gitian-linux.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-linux.yml
-	    mv build/out/bitcoingreen-*.tar.gz build/out/src/bitcoingreen-*.tar.gz ../bitcoingreen-binaries/${VERSION}
+	    ./bin/gbuild -j ${proc} -m ${mem} --commit greencity=${COMMIT} --url greencity=${url} ../greencity/contrib/gitian-descriptors/gitian-linux.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-linux.yml
+	    mv build/out/greencity-*.tar.gz build/out/src/greencity-*.tar.gz ../greencity-binaries/${VERSION}
 	fi
 	# Windows
 	if [[ $windows = true ]]
@@ -289,10 +289,10 @@ then
 	    echo ""
 	    echo "Compiling ${VERSION} Windows"
 	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit bitcoingreen=${COMMIT} --url bitcoingreen=${url} ../bitcoingreen/contrib/gitian-descriptors/gitian-win.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-win.yml
-	    mv build/out/bitcoingreen-*-win-unsigned.tar.gz inputs/bitcoingreen-win-unsigned.tar.gz
-	    mv build/out/bitcoingreen-*.zip build/out/bitcoingreen-*.exe ../bitcoingreen-binaries/${VERSION}
+	    ./bin/gbuild -j ${proc} -m ${mem} --commit greencity=${COMMIT} --url greencity=${url} ../greencity/contrib/gitian-descriptors/gitian-win.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-win.yml
+	    mv build/out/greencity-*-win-unsigned.tar.gz inputs/greencity-win-unsigned.tar.gz
+	    mv build/out/greencity-*.zip build/out/greencity-*.exe ../greencity-binaries/${VERSION}
 	fi
 	# Mac OSX
 	if [[ $osx = true ]]
@@ -300,10 +300,10 @@ then
 	    echo ""
 	    echo "Compiling ${VERSION} Mac OSX"
 	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit bitcoingreen=${COMMIT} --url bitcoingreen=${url} ../bitcoingreen/contrib/gitian-descriptors/gitian-osx.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-osx.yml
-	    mv build/out/bitcoingreen-*-osx-unsigned.tar.gz inputs/bitcoingreen-osx-unsigned.tar.gz
-	    mv build/out/bitcoingreen-*.tar.gz build/out/bitcoingreen-*.dmg ../bitcoingreen-binaries/${VERSION}
+	    ./bin/gbuild -j ${proc} -m ${mem} --commit greencity=${COMMIT} --url greencity=${url} ../greencity/contrib/gitian-descriptors/gitian-osx.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-osx.yml
+	    mv build/out/greencity-*-osx-unsigned.tar.gz inputs/greencity-osx-unsigned.tar.gz
+	    mv build/out/greencity-*.tar.gz build/out/greencity-*.dmg ../greencity-binaries/${VERSION}
 	fi
 	# AArch64
 	if [[ $aarch64 = true ]]
@@ -311,9 +311,9 @@ then
 	    echo ""
 	    echo "Compiling ${VERSION} AArch64"
 	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit bitcoingreen=${COMMIT} --url bitcoingreen=${url} ../bitcoingreen/contrib/gitian-descriptors/gitian-aarch64.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-aarch64 --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-aarch64.yml
-	    mv build/out/bitcoingreen-*.tar.gz build/out/src/bitcoingreen-*.tar.gz ../bitcoingreen-binaries/${VERSION}
+	    ./bin/gbuild -j ${proc} -m ${mem} --commit greencity=${COMMIT} --url greencity=${url} ../greencity/contrib/gitian-descriptors/gitian-aarch64.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-aarch64 --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-aarch64.yml
+	    mv build/out/greencity-*.tar.gz build/out/src/greencity-*.tar.gz ../greencity-binaries/${VERSION}
 	popd
 
         if [[ $commitFiles = true ]]
@@ -340,32 +340,32 @@ then
 	echo ""
 	echo "Verifying v${VERSION} Linux"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../bitcoingreen/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../greencity/contrib/gitian-descriptors/gitian-linux.yml
 	# Windows
 	echo ""
 	echo "Verifying v${VERSION} Windows"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../bitcoingreen/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../greencity/contrib/gitian-descriptors/gitian-win.yml
 	# Mac OSX
 	echo ""
 	echo "Verifying v${VERSION} Mac OSX"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../bitcoingreen/contrib/gitian-descriptors/gitian-osx.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../greencity/contrib/gitian-descriptors/gitian-osx.yml
 	# AArch64
 	echo ""
 	echo "Verifying v${VERSION} AArch64"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-aarch64 ../bitcoingreen/contrib/gitian-descriptors/gitian-aarch64.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-aarch64 ../greencity/contrib/gitian-descriptors/gitian-aarch64.yml
 	# Signed Windows
 	echo ""
 	echo "Verifying v${VERSION} Signed Windows"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../bitcoingreen/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../greencity/contrib/gitian-descriptors/gitian-osx-signer.yml
 	# Signed Mac OSX
 	echo ""
 	echo "Verifying v${VERSION} Signed Mac OSX"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../bitcoingreen/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../greencity/contrib/gitian-descriptors/gitian-osx-signer.yml
 	popd
 fi
 
@@ -380,10 +380,10 @@ then
 	    echo ""
 	    echo "Signing ${VERSION} Windows"
 	    echo ""
-	    ./bin/gbuild -i --commit signature=${COMMIT} ../bitcoingreen/contrib/gitian-descriptors/gitian-win-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-win-signer.yml
-	    mv build/out/bitcoingreen-*win64-setup.exe ../bitcoingreen-binaries/${VERSION}
-	    mv build/out/bitcoingreen-*win32-setup.exe ../bitcoingreen-binaries/${VERSION}
+	    ./bin/gbuild -i --commit signature=${COMMIT} ../greencity/contrib/gitian-descriptors/gitian-win-signer.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-win-signer.yml
+	    mv build/out/greencity-*win64-setup.exe ../greencity-binaries/${VERSION}
+	    mv build/out/greencity-*win32-setup.exe ../greencity-binaries/${VERSION}
 	fi
 	# Sign Mac OSX
 	if [[ $osx = true ]]
@@ -391,9 +391,9 @@ then
 	    echo ""
 	    echo "Signing ${VERSION} Mac OSX"
 	    echo ""
-	    ./bin/gbuild -i --commit signature=${COMMIT} ../bitcoingreen/contrib/gitian-descriptors/gitian-osx-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../bitcoingreen/contrib/gitian-descriptors/gitian-osx-signer.yml
-	    mv build/out/bitcoingreen-osx-signed.dmg ../bitcoingreen-binaries/${VERSION}/bitcoingreen-${VERSION}-osx.dmg
+	    ./bin/gbuild -i --commit signature=${COMMIT} ../greencity/contrib/gitian-descriptors/gitian-osx-signer.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../greencity/contrib/gitian-descriptors/gitian-osx-signer.yml
+	    mv build/out/greencity-osx-signed.dmg ../greencity-binaries/${VERSION}/greencity-${VERSION}-osx.dmg
 	fi
 	popd
 
