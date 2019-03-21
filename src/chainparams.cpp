@@ -101,8 +101,8 @@ public:
         pchMessageStart[1] = 0xdc;
         pchMessageStart[2] = 0x12;
         pchMessageStart[3] = 0xae;
-        vAlertPubKey = ParseHex("04d2df519f53e2eaa4a7d7ff3347a360520c2f4b8f07d0241b5b6ba5ce8e3d6ecba5443696473a387adff27aa6bb72b952ff23026e088cff9f47cbb387ed52c326");
-        nDefaultPort = 9333;
+        vAlertPubKey = ParseHex("0429e5969fce1c4ac3369932023daed4ae23d3e0b7f9350a1eaac38cf19397b32401dce515271207eec11bc23df04a22a227cbcd37582aeb9826ed5c5c974a2c2c");
+        nDefaultPort = 14333;
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         nSubsidyHalvingInterval = 1050000;
         nMaxReorganizationDepth = 100;
@@ -114,7 +114,7 @@ public:
         nTargetSpacing = 2 * 60;  // Green City: 2 minutes
         nMaturity = 10;
         nMasternodeCountDrift = 20;
-        nMaxMoneyOut = 21000000 * COIN;
+        nMaxMoneyOut = 18000000 * COIN;
 
         /** Height or Time Based Activations **/
         nLastPOWBlock = 200;
@@ -137,29 +137,29 @@ public:
          * nonce: 21256609
          * genesis_hash: 000008467c3a9c587533dea06ad9380cded3ed32f9742a6c0c1aebc21bf2bc9b
          */
-        const char* pszTimestamp = "Even With Energy Surplus, Canada Unable to Meet Electricity Demands of Bitcoin Miners";
+        const char* pszTimestamp = "start greencity 21/03/2019 18/00";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 0 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04e5a8143f86ad8ac63791fbbdb8e0b91a8da88c8c693a95f6c2c13c063ea790f7960b8025a9047a7bc671d5cfe707a2dd2e13b86182e1064a0eea7bf863636363") << OP_CHECKSIG;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("0429e5969fce1c4ac3369932023daed4ae23d3e0b7f9350a1eaac38cf19397b32401dce515271207eec11bc23df04a22a227cbcd37582aeb9826ed5c5c974a2c2c") << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1516926684;
+        genesis.nTime = 1553191200;
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 21256609;
+        genesis.nNonce = 3497518;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x000008467c3a9c587533dea06ad9380cded3ed32f9742a6c0c1aebc21bf2bc9b"));
-        assert(genesis.hashMerkleRoot == uint256("0x07cbcacfc822fba6bbeb05312258fa43b96a68fc310af8dfcec604591763f7cf"));
+        assert(hashGenesisBlock == uint256("000001ffca23493872e2ccda8a233f0cab9c5728f257bd268643ee38ab2a5dc5"));
+        assert(genesis.hashMerkleRoot == uint256("b04f804b8271edf07fe5e586b7d63453901a4498a71574a58767d2f71cb44915"));
 
         // DNS Seeding
-        vSeeds.push_back(CDNSSeedData("seed1.savebitcoin.io", "seed1.savebitcoin.io"));
-        vSeeds.push_back(CDNSSeedData("seed2.savebitcoin.io", "seed2.savebitcoin.io"));
-        vSeeds.push_back(CDNSSeedData("seed3.savebitcoin.io", "seed3.savebitcoin.io"));
+        vSeeds.push_back(CDNSSeedData());
+        vSeeds.push_back(CDNSSeedData());
+        vSeeds.push_back(CDNSSeedData());
 
         // Green City addresses start with 'G'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 38);
@@ -187,8 +187,8 @@ public:
         fHeadersFirstSyncingActive = false;
 
         nPoolMaxTransactions = 3;
-        strSporkKey = "04026c33ff67ad40db68e7ba4f6d858a56550a7aba460857d1cf0f34af4e7d090b255928df8135ee5343df02b88801635ef054da6ef3071ce69c2c3134acad54e9";
-        strMasternodePoolDummyAddress = "GSJVWUkt6HtSCY2SaJ2akeyJUg8bg1hW3S";
+        strSporkKey = "04735c91cda74bf63eee2c31de40d1ed7b4015c8bff491935804be62dc9bec106eb58cee0feb73569837d8e6ebf2a7e634173147380b841af48735400fff276c56";
+        strMasternodePoolDummyAddress = "04735c91cda74bf63eee2c31de40d1ed7b4015c8bff491935804be62dc9bec106eb58cee0feb73569837d8e6ebf2a7e634173147380b841af48735400fff276c56";
         nStartMasternodePayments = genesis.nTime + 86400; // 24 hours after genesis creation
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
@@ -215,8 +215,8 @@ public:
         pchMessageStart[1] = 0x8a;
         pchMessageStart[2] = 0xe5;
         pchMessageStart[3] = 0xa8;
-        vAlertPubKey = ParseHex("04ba89975265af1d4c6295d3587eb4a0e4b758bde1621ef2ab8f92b98e7ed1c85547c9b7a3f145a66aa2abb91db5c13295828e77d823ea6d9b4bb89912425e1efe");
-        nDefaultPort = 19333;
+        vAlertPubKey = ParseHex("0429e5969fce1c4ac3369932023daed4ae23d3e0b7f9350a1eaac38cf19397b32401dce515271207eec11bc23df04a22a227cbcd37582aeb9826ed5c5c974a2c2c");
+        nDefaultPort = 24333;
         nEnforceBlockUpgradeMajority = 51;
         nRejectBlockOutdatedMajority = 75;
         nToCheckBlockUpgradeMajority = 100;
@@ -227,14 +227,14 @@ public:
         nMaturity = 15;
         nMasternodeCountDrift = 4;
         nModifierUpdateBlock = 1;
-        nMaxMoneyOut = 21000000 * COIN;
+        nMaxMoneyOut = 18000000 * COIN;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1534570200;
-        genesis.nNonce = 21148656;
+        genesis.nTime = 1553191201;
+        genesis.nNonce = 2726541;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x000000938f4f20c6ccb3fea36539ade5af73d0bb45c55af64c7f7f1bfa5f3381"));
+        assert(hashGenesisBlock == uint256("000004a0599062f975cd1be5029a61f076ad38638967a40d054e11d371ae9473"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -262,8 +262,8 @@ public:
         fTestnetToBeDeprecatedFieldRPC = true;
 
         nPoolMaxTransactions = 2;
-        strSporkKey = "041bab97de321ccf1e78d10164f90bd87e3070ddb5586389013e9f15c4931e2451f318f1a8f177c5e9a3f5b4b13145f78e8116d2aa7ae14ef27f1f076b02ba852c";
-        strMasternodePoolDummyAddress = "gbJ4Qad4xc77PpLzMx6rUegAs6aUPWkcUq";
+        strSporkKey = "0445e9bda204e845992c6a2c15015e15e84b9c36b0492cf7ef78d04252e2427efa5924f7df90a4d12290887fcd5c4ecc1c2b54925145e2f91c2ed43fb4ba669ec6";
+        strMasternodePoolDummyAddress = "0445e9bda204e845992c6a2c15015e15e84b9c36b0492cf7ef78d04252e2427efa5924f7df90a4d12290887fcd5c4ecc1c2b54925145e2f91c2ed43fb4ba669ec6";
         nStartMasternodePayments = genesis.nTime + 86400; // 24 hours after genesis
         nBudget_Fee_Confirmations = 3; // Number of confirmations for the finalization fee. We have to make this very short
                                        // here because we only have a 8 block finalization window on testnet
